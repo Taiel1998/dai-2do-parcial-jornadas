@@ -48,7 +48,10 @@ Herramienta: Claude Code (aplicacion de escritorio)
 - Verifique con "npm run typecheck" que no hubiera errores de tipos.
 - Le pedi que probara la logica: corrio pruebas temporales del ViewModel con un Repository
   falso y del SQL contra un SQLite real en memoria con las ediciones v1 a v4. Pasaron.
-- No se pudo compilar el APK en mi maquina (faltan JDK 17 y componentes del SDK).
+- Le pedi que compilara el APK y lo probara en el emulador: compilo sin errores y los
+  cuatro pedidos se comprobaron con la app corriendo (detalle en CAMBIOS.md).
+- Revisando encontre una limitacion de la libreria de SQLite con las transacciones. No la
+  cambie porque no la pedia el README; quedo anotada en CAMBIOS.md.
 - Revise que no se agregaran librerias ni se cambiaran versiones (package.json igual).
 - Revise que no se renombrara el paquete de la app ni la base de datos, porque el README
   pide conservar los datos de los usuarios que ya la tienen instalada.
@@ -116,4 +119,19 @@ P6) "La parte de 'como se prueba' del pedido 41 no la entendi. Explicala bien."
     (descargo cero charlas): Mesa v4, Actualizar; debe decir "sin charlas programadas" y
     seguir asi al reabrir sin senal. La clave: B y C tienen la lista vacia, pero en B nunca
     descargo y en C descargo cero charlas.
+
+P7) "Que significa una carga automatica por proceso?"
+    R: Carga = la app le pide la lista al servidor. Automatica = la hace sola, sin que yo
+    toque nada (al abrirla). Proceso = la app encendida, desde que la abro hasta que se
+    cierra del todo. Entonces: cada vez que la app se enciende descarga sola una unica vez,
+    y no vuelve a hacerlo aunque gire el telefono, cambie de pestana o vuelva de otra app.
+    Como la tele, que carga la guia de canales al prenderla y no en cada cambio de canal.
+
+P8) "Que es 'marcar' una charla?"
+    R: Tocar el boton "Agregar a mi agenda" dentro de la ficha de la charla. Desde ahi
+    aparece en la pestana Mi agenda. En el codigo es la columna favorita (1 = si, 0 = no).
+
+P9) Le pedi dos veces que rehiciera las explicaciones porque daba cosas por sabidas y
+    mostraba pedazos de codigo sin contexto. Las rehizo con una historia por pedido, el
+    README traducido frase por frase y el significado de cada nombre antes de cada codigo.
 

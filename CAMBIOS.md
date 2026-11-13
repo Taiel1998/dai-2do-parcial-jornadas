@@ -108,7 +108,16 @@ adb shell am start -n ar.jornadasrn/.MainActivity --ez servicio_disponible false
 - Lógica del ViewModel probada con un Repository falso: una carga automática por proceso, doble toque, volver a pedir tras éxito y tras falla, avisos con y sin datos, punto de lectura por tarea.
 - Repository y SQL probados contra un SQLite real en memoria con las ediciones v1 a v4, partiendo de una base "ya instalada" con una charla marcada: las marcas se conservan en v2 y v3, la 11 vuelve sin marcar, la v4 vacía queda como edición válida y una marca hecha durante la petición se respeta.
 - Las pruebas fueron temporales y no se incluyen en la entrega.
-- **Pendiente:** no se compiló el APK ni se probó en emulador en esta máquina (faltan JDK 17, build-tools 35 y NDK 26.1). Los pasos manuales están abajo.
+- **APK:** `gradlew assembleDebug` compila sin errores (Gradle descargó solo el JDK 17 que exige el proyecto).
+- **Emulador (Pixel, API 36, con Metro):** se recorrieron los cuatro pedidos manejando la app por `adb` y leyendo la pantalla. Todo dio bien:
+  - **44:** el contador dice 1 al abrir; abrir una ficha, cambiar de pestaña y rotar no lo mueven; Actualizar lo sube a 2; con demora de 8 segundos, dos toques seguidos lo suben solo a 3; los filtros responden durante la espera.
+  - **42:** la charla 11 marcada en v1 sigue marcada en v2 con "Compose en producción avanzada" y "Sala Puerto"; una charla marcada durante una petición de 8 segundos queda marcada; en v3 desaparece la 11 de Programa y de Mi agenda y entra "Clínica de trazas"; al volver a v1 la 11 regresa sin marcar.
+  - **41:** con el servicio apagado se ve la lista con el aviso de datos guardados, y siguen la ficha y Mi agenda; con v4 se ve "sin charlas programadas" sin error, y al cerrar y reabrir sin servicio sigue igual y sin Reintentar; tras `pm clear` y arranque con `--ez servicio_disponible false` aparece el aviso sin datos con Reintentar, y al prender el servicio y reintentar carga la lista.
+  - **43:** con Día 2 + Datos quedan dos charlas después de abrir una ficha, volver y rotar; con la ficha abierta, tras Inicio y `adb shell am kill ar.jornadasrn` (el proceso murió) la tarea recuperada muestra la misma ficha y, al volver, los dos filtros, con el contador en 1; tras cerrar del todo y abrir de nuevo arranca sin filtros.
+
+### Limitación conocida
+
+`react-native-sqlite-storage`, usada con promesas como en este proyecto, no deshace por sí sola la transacción cuando falla una orden suelta: registra el error y continúa. La función `guardar` agrupa sus órdenes en una transacción, pero para un "todo o nada" estricto habría que agregarle a cada orden un manejador de error que la interrumpa. No se cambió porque el README no lo pide.
 
 ## 8. Cómo probar
 
