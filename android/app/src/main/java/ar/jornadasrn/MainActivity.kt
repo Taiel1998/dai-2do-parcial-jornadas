@@ -25,7 +25,11 @@ class MainActivity : ReactActivity() {
         object : DefaultReactActivityDelegate(this, mainComponentName, false) {
             override fun getLaunchOptions() = Bundle().apply {
                 putString("taskKey", sessionKey)
-                putBoolean("offlineStart", intent.getBooleanExtra("sin_servicio", false))
+                // Arranque sin servicio: se acepta el extra original (sin_servicio true)
+                // y el que nombra el README de la consigna (servicio_disponible false).
+                val sinServicio = intent.getBooleanExtra("sin_servicio", false)
+                val servicioDisponible = intent.getBooleanExtra("servicio_disponible", true)
+                putBoolean("offlineStart", sinServicio || !servicioDisponible)
             }
         }
 }

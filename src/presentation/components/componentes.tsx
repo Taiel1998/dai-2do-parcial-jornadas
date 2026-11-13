@@ -1,12 +1,15 @@
+// PANTALLA (piso 1): piezas visuales compartidas. Solo dibujan y avisan toques.
 import React from 'react';
 import {Pressable,StyleSheet,Text,View} from 'react-native';
-import {Charla} from '../data/archivo';
+import {Charla} from '../../domain/charla';
 
 export const s = StyleSheet.create({
   pagina:{flex:1,backgroundColor:'#f8f7f1',padding:16},
+  cuerpo:{flex:1},
   fila:{flexDirection:'row',flexWrap:'wrap',gap:6,marginVertical:5},
   titulo:{fontSize:27,fontWeight:'700',color:'#183f39',marginVertical:8},
   texto:{fontSize:16,color:'#213a36',marginVertical:4},
+  aviso:{fontSize:15,color:'#7a3b12',backgroundColor:'#fbe9d5',padding:9,borderRadius:8,marginVertical:4},
   boton:{borderRadius:8,borderWidth:1,borderColor:'#457369',padding:9},
   activo:{backgroundColor:'#c5e6da'},
   tarjeta:{backgroundColor:'white',padding:14,marginVertical:4,borderRadius:10},
